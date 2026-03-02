@@ -153,6 +153,41 @@ namespace Blogapplication.API.Controllers
 
         }
 
+        //get the blog by url
+
+        [HttpGet]
+        [Route("{urlhandle}")]
+
+        public async Task<IActionResult> getByUrl([FromRoute] string urlhandle)
+        {
+            var Existingblog = await blogpostrepository.GetbyUrl(urlhandle);
+
+            if(Existingblog == null)
+            {
+                return NotFound();
+            }
+            var response = new BlogpostDto
+            {
+                Id = Existingblog.Id,
+                Title = Existingblog.Title,
+                ShortDescription = Existingblog.ShortDescription,
+                Contact = Existingblog.Contact,
+                FeaturedImageUrl = Existingblog.FeaturedImageUrl,
+                Urlhandle = Existingblog.Urlhandle,
+                PublishedDate = Existingblog.PublishedDate,
+                IsVisible = Existingblog.IsVisible,
+                Author = Existingblog.Author,
+                categories = Existingblog.categories.Select(x => new CategoryDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Urlhandle = x.Urlhandle
+
+                }).ToList()
+            };
+            return Ok(response);
+
+        }
 
         //update a blogpost data
 

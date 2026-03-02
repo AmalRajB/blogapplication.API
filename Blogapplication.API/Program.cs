@@ -2,6 +2,7 @@ using Blogapplication.API.Data;
 using Blogapplication.API.Reposiroties.Implementation;
 using Blogapplication.API.Reposiroties.Interface;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,18 @@ app.UseCors(options =>
     options.AllowAnyOrigin();
 });
 
+app.UseStaticFiles();
+//enable to read the files inside the Image folder as a static file 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images"
+});
+
 app.UseAuthorization();
+
+
+
 
 app.MapControllers();
 

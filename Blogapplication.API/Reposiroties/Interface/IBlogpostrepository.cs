@@ -8,6 +8,7 @@ namespace Blogapplication.API.Reposiroties.Interface
         Task<IEnumerable<Blogpost>> getAllAsync();
 
         Task<Blogpost?> GetById(Guid id);
+        Task<Blogpost?> GetbyUrl(string urlhandle);
 
         Task<Blogpost?> EditBlogAsync(Blogpost blogpost);
 

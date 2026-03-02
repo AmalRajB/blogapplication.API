@@ -73,6 +73,32 @@ namespace Blogapplication.API.Controllers
 
 
 
+        //get all images form db
+
+        [HttpGet]
+
+        public async Task<IActionResult> getAllImage()
+        {
+            var images = await imagerepository.GetAll();
+
+            var response = new List<BlogimageDto>();
+
+            foreach (var image in images)
+            {
+                response.Add(new BlogimageDto
+                {
+                    Id = image.Id,
+                    FileName = image.FileName,
+                    Title = image.Title,
+                    FileExtension = image.FileExtension,
+                    Url = image.Url,
+                    DateCreated = image.DateCreated
+
+                }); 
+            }
+            return Ok(response);
+        }
+    
 
     }
 }

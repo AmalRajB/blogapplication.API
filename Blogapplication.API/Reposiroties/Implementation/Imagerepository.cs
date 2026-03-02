@@ -3,6 +3,7 @@ using Blogapplication.API.Models.Domain;
 using Blogapplication.API.Reposiroties.Interface;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blogapplication.API.Reposiroties.Implementation
 {
@@ -19,6 +20,12 @@ namespace Blogapplication.API.Reposiroties.Implementation
             this.httpContextAccessor = httpContextAccessor;
             this.dbContext = dbContext;
         }
+        //getting all the images 
+        public async Task<IEnumerable<Blogimage>> GetAll()
+        {
+            return await dbContext.Blogimages.ToListAsync();
+        }
+
         public async Task<Blogimage> Upload(IFormFile file, Blogimage blogimage)
         {
 
@@ -32,7 +39,7 @@ namespace Blogapplication.API.Reposiroties.Implementation
             //update the database
 
             var httprequest = httpContextAccessor.HttpContext.Request;
-            var Urlpath = $"{httprequest.Scheme}://{httprequest.Host}{httprequest.PathBase}/Image/{blogimage.FileName}{blogimage.FileExtension}";
+            var Urlpath = $"{httprequest.Scheme}://{httprequest.Host}{httprequest.PathBase}/Images/{blogimage.FileName}{blogimage.FileExtension}";
 
             blogimage.Url = Urlpath;
 
